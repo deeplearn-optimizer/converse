@@ -5,10 +5,11 @@ RUN apt update && apt install git -y
 RUN apt install python3 -y
 RUN apt install python3-pip -y
 RUN pip install django
-RUN pip install gdown
+RUN pip install pillow
 RUN pip install djangorestframework
 RUN pip install django-filter
 RUN pip install markdown
+RUN pip install tzdata
 RUN pip install whitenoise
 RUN pip install django-cors-headers
 RUN pip install djangorestframework-simplejwt
