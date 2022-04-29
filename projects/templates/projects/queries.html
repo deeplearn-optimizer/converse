@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+  	<title>Converse.AI | Queries</title>
+   
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}" />
+
+
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Welcome Admin, Here are some Queries</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="table-wrap">
+						<table class="table table-responsive-xl">
+						  <thead>
+						    <tr>
+						      <th>Client</th>
+						      <th>Username</th>
+                              <th>Bot Name</th>
+						      <th>Status</th>
+						      <th>&nbsp;</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+
+                            {% for query in queries %}
+
+                                <tr class="alert" role="alert">
+                                
+                                <td class="d-flex align-items-center">
+                                    <div class="img" style="background-image: url({{query.owner.profile_image.url}});"></div>
+                                    <div class="pl-3 email">
+                                        <span>{{query.owner.name}}</span>
+                                        <span>Added : {{query.created}}</span>
+                                    </div>
+                                </td>
+                                <td>{{query.owner.username}}</td>
+                                <td>{{query.project.title}}</td>
+								{% if query.status == 'yes' %}
+								<td class="status"><span class="active">Active</span></td>
+                                {% else %}
+								<td class="status"><span class="waiting">Waiting</span></td>
+								{% endif %}
+								<td>
+                                <a href="{% url 'show_query' query.id  %}">
+                                    <button style = "background-color: #39add1;border-radius: 5px;color: #ffffff;padding: 5px;border-width: 0px;">Take Action</button>
+                                </a>
+                                </td>
+                                </tr>
+
+                            {% endfor %}
+
+
+						  </tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+	</body>
+</html>
+

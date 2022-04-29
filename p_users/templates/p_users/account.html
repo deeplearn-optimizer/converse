@@ -1,0 +1,72 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<!-- Main Section -->
+<main class="settingsPage profile my-md">
+  <div class="container">
+    <div class="layout">
+      <div class="column column--1of3">
+        <div class="card text-center">
+          <div class="card__body dev">
+            <a class="tag tag--pill tag--main settings__btn" href="{% url 'edit-account' %}"><i class="im im-edit"></i>
+              Edit</a>
+            <img class="avatar avatar--xl dev__avatar" src="{{profile.imageURL}}" />
+            <h2 class="dev__name">{{profile.name}}</h2>
+            <p class="dev__title">{{profile.short_intro}}</p>
+            <p class="dev__location">Based in {{profile.location}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="column column--2of3">
+        <div class="devInfo">
+          <h3 class="devInfo__title">About Me</h3>
+
+          <p class="devInfo__about">{{profile.bio}}</p>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<main class="projects">
+        
+  <section class="projectsList">
+      <div class="container">
+          <h3 class="devInfo__title">Products subscribed</h3>
+          <div class="grid grid--three">
+              
+              {% for query in queries %}
+              <div class="column">
+                  <div class="card project">
+                      <a href="{% url 'project' query.project.id %}" class="project">
+                          <img class="project__thumbnail" src="{{ query.project.featured_image.url }}" alt="project thumbnail" />
+                          <div class="card__body">
+                              <h3 class="project__title">{{query.project.title}}</h3>
+  
+                              <p class="project--rating">
+                                  <span style="font-weight: bold;">{{query.project.vote_ratio}}%</span> Positive
+                                  Feedback ({{query.project.vote_total}}) Vote{{query.project.vote_total|pluralize:"s"}}
+                              </p>
+                              <div class="project__tags">
+                                  {% for tag in query.project.tags.all %}
+                                  <span class="tag tag--pill tag--main">
+                                      <small>{{tag}}</small>
+                                  </span>
+                                  {% endfor %}
+                              </div>
+                          </div>
+                      </a>
+                  </div>
+              </div>
+              {% endfor %}
+
+          </div>
+      </div>
+  </section>
+
+</main>
+
+{% endblock %}
