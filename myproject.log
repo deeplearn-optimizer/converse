@@ -1,0 +1,24 @@
+[2022-05-06 06:31:15] WARNING [tests:14] <JsonResponse status_code=200, "application/json">
+[2022-05-06 06:31:41] WARNING [tests:14] 200
+[2022-05-06 06:40:11] WARNING [tests:14] Running three assert tests
+[2022-05-06 06:40:11] WARNING [tests:18] All three assert tests, passed!
+[2022-05-06 06:40:35] INFO [tests:14] Running three assert tests
+[2022-05-06 06:40:35] INFO [tests:18] All three assert tests, passed!
+[2022-05-06 06:50:12] INFO [tests:14] Running three assert tests
+[2022-05-06 06:50:12] INFO [tests:18] All three assert tests, passed!
+[2022-05-06 06:50:19] INFO [django.utils.autoreload:643] Watching for file changes with StatReloader
+[2022-05-06 06:50:19] INFO [django.utils.autoreload:643] Watching for file changes with StatReloader
+[2022-05-06 06:50:29] INFO [django.server:179] "GET / HTTP/1.1" 200 7312
+[2022-05-06 06:50:29] INFO [django.server:179] "GET / HTTP/1.1" 200 7312
+[2022-05-06 06:50:36] INFO [django.server:179] "GET /profiles/ HTTP/1.1" 200 6069
+[2022-05-06 06:50:36] INFO [django.server:179] "GET /profiles/ HTTP/1.1" 200 6069
+[2022-05-06 06:50:36] INFO [django.server:179] "GET /images/profiles/95963243.jpeg HTTP/1.1" 200 25487
+[2022-05-06 06:50:36] INFO [django.server:179] "GET /images/profiles/95963243.jpeg HTTP/1.1" 200 25487
+[2022-05-06 06:50:36] INFO [django.server:179] "GET /images/profiles/WhatsApp_Image_2022-04-14_at_12.00.01.jpeg HTTP/1.1" 200 151396
+[2022-05-06 06:50:36] INFO [django.server:179] "GET /images/profiles/WhatsApp_Image_2022-04-14_at_12.00.01.jpeg HTTP/1.1" 200 151396
+[2022-05-06 06:50:36] INFO [django.server:179] "GET /images/profiles/dhyeya.png HTTP/1.1" 200 686886
+[2022-05-06 06:50:36] INFO [django.server:179] "GET /images/profiles/dhyeya.png HTTP/1.1" 200 686886
+[2022-05-06 06:50:36] WARNING [django.request:225] Not Found: /profiles/images/favicon.ico
+[2022-05-06 06:50:36] WARNING [django.request:225] Not Found: /profiles/images/favicon.ico
+[2022-05-06 06:50:36] WARNING [django.server:179] "GET /profiles/images/favicon.ico HTTP/1.1" 404 6279
+[2022-05-06 06:50:36] WARNING [django.server:179] "GET /profiles/images/favicon.ico HTTP/1.1" 404 6279

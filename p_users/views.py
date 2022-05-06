@@ -1,3 +1,4 @@
+import profile
 from django.dispatch.dispatcher import receiver
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
@@ -5,14 +6,33 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.urls import conf
+from django.http import JsonResponse
+
 from projects.models import Query
 from django.db.models import Q
 from .models import Profile, Message
 from .forms import CustomUserCreationForm, ProfileForm, MessageForm
 from .utils import searchProfiles, paginateProfiles
 
+from p_users.models import Profile
+from rest_framework import serializers
+
+import logging
+logger = logging.getLogger(__name__)
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+def get_profiles(request = None):
+    users = Profile.objects.all()
+    serializer = ProfileSerializer(users, many=True)
+    return JsonResponse(serializer.data, safe = False)
+
 
 def loginUser(request):
+    logger.info("user login page was accessed!")
     page = 'login'
 
     if request.user.is_authenticated:
@@ -30,16 +50,18 @@ def loginUser(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
+            logger.info("User logged in.")
             login(request, user)
             return redirect(request.GET['next'] if 'next' in request.GET else 'account')
-
         else:
+            logger.warning("User cannot log in.")
             messages.error(request, 'Username OR password is incorrect')
 
     return render(request, 'p_users/login_register.html')
-
+    
 
 def logoutUser(request):
+    logger.info("user logged out")
     logout(request)
     messages.info(request, 'User was logged out!')
     return redirect('login') 
@@ -47,6 +69,7 @@ def logoutUser(request):
 
 
 def registerUser(request):
+    logger.info("Trying to register new user.")
     page = 'register'
     form = CustomUserCreationForm()
 
@@ -58,13 +81,14 @@ def registerUser(request):
             user.save()
 
             messages.success(request, 'User account was created!')
-
+            logger.info("User registered.")
             login(request, user)
             return redirect('edit-account')
 
         else:
-            messages.success(
+            messages.error(
                 request, 'An error has occurred during registration')
+            logger.error("cannot register user")
 
     context = {'page': page, 'form': form}
     return render(request, 'p_users/login_register.html', context)
@@ -88,6 +112,7 @@ def userProfile(request, pk):
 
 @login_required(login_url='login')
 def userAccount(request):
+    logger.info("user account accessed.")
     profile = request.user.profile
     queries =  profile.query_set.all();
     context = {'profile': profile, "queries" : queries}
@@ -96,6 +121,7 @@ def userAccount(request):
 
 @login_required(login_url='login')
 def editAccount(request):
+    logger.info("account edit was accessed.")
     profile = request.user.profile
     form = ProfileForm(instance=profile)
 
@@ -120,6 +146,7 @@ def inbox(request):
 
 @login_required(login_url='login')
 def viewMessage(request, pk):
+    logger.info("message was shown.")
     profile = request.user.profile
     message = profile.messages.get(id=pk)
     if message.is_read == False:
@@ -129,6 +156,7 @@ def viewMessage(request, pk):
     return render(request, 'p_users/message.html', context)
 
 def createMessage(request, pk):
+    logger.info("message was created.")
     recipient = Profile.objects.get(id=pk)
     form = MessageForm()
 

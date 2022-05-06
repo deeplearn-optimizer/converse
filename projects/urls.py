@@ -9,7 +9,8 @@ urlpatterns = [
     path('query/', views.query, name="query"),
     path("get_answer/", views.get_answer, name = "get_answer"),
     path('queries/', views.queries, name="queries"),
-    
+    path('get_projects/', views.get_projects_api, name="get_projects"),
+    path('get_queries/', views.get_queries_api, name="get_queries"),
     path('show_query/<str:pk>/', views.show_query, name="show_query"),
     path('toggle_activation/<str:pk>/', views.toggle_activation, name="toggle_activation"),
 ]

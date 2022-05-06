@@ -10,6 +10,7 @@ urlpatterns = [
     path('edit-account/', views.editAccount, name="edit-account"),
     path('profiles/', views.profiles, name="profiles"),
     path('inbox/', views.inbox, name="inbox"),
+    path('get_users/', views.get_profiles, name="get_users"),
     path('message/<str:pk>/', views.viewMessage, name="message"),
     path('create-message/<str:pk>/', views.createMessage, name="create-message"),
 ] 

@@ -1,16 +1,50 @@
 from django.core import paginator
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Tag, Project, Query
 from django.contrib import messages
 from .forms import ProjectForm, ReviewForm, QueryForm
 #from .ai_util import *
-
 from django.conf import settings
 from django.core.mail import send_mail
-
 from .utils import searchProjects, paginateProjects
+
+
+from rest_framework import serializers
+from .models import Project, Tag, Review
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
+
+class QuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Query
+        fields = '__all__'
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    tags = TagSerializer(many=True)
+    reviews = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+    def get_reviews(self, obj):
+        reviews = obj.review_set.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return serializer.data
+
+
 
 def get_answer(request):
     s = " Person 1: Are there theatres in town? Person 2: There are 4 theatres in the center of town. Do you have a preference? Person 1: No, I don't have a preference. Which one do you recommend? Person 2: "
@@ -91,11 +125,18 @@ def createProject(request):
 def projects(request):
     projects, search_query = searchProjects(request)
     custom_range, projects = paginateProjects(request, projects, 6)
-
-    context = {'projects': projects,
-               'search_query': search_query, 'custom_range': custom_range}
+    context = {'projects': projects,'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'projects/projects.html', context)
 
+def get_projects_api(request = None):
+    projects = Project.objects.all()
+    serializer = ProjectSerializer(projects, many=True)
+    return JsonResponse(serializer.data, safe = False)
+
+def get_queries_api(request = None):
+    queries = Query.objects.all()
+    serializer = QuerySerializer(queries, many=True)
+    return JsonResponse(serializer.data, safe = False)
 
 def project(request, pk):
     projectObj = Project.objects.get(id=pk)
@@ -107,9 +148,7 @@ def project(request, pk):
         review.project = projectObj
         review.owner = request.user.profile
         review.save()
-
         projectObj.getVoteCount
-
         messages.success(request, 'Your review was successfully submitted!')
         return redirect('project', pk=projectObj.id)
 
