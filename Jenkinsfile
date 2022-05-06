@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    Image_name = "deepdockerpro/my_calculator"
+    Image_name = "deepdockerpro/converse"
     DockerHubCredential = 'deepdockerpro-dockerhub'
     Docker_image = ''
   }
@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git([url: 'https://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@github.com/deeplearn-optimizer/calculator.git', branch: 'master', credentialsId: 'deepdockerpro-github'])
+        git([url: 'https://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@github.com/deeplearn-optimizer/converse.git', branch: 'master', credentialsId: 'deepdockerpro-github'])
 
       }
     }
