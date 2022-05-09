@@ -52,4 +52,6 @@
         state: started
         ports:
         -  7000:8000
+        volumes:
+        -  /home/ubuntu/db.sqlite3:./db.sqlite3
 
