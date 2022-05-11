@@ -46,12 +46,6 @@
         source: pull
 
     - name: Launch the calculator container
-      docker_container:
-        name: my_calculator
-        image: deepdockerpro/converse
-        state: started
-        ports:
-        -  7000:8000
-        volumes:
-        -  /home/ubuntu/db.sqlite3:./db.sqlite3
+      shell: docker run --name deepdockerpro/converse -p 9000:8000 -v /home/ubuntu/preserved_database:/home/Database deepdockerpro/converse
+	
 
