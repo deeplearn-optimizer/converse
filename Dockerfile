@@ -17,4 +17,6 @@ WORKDIR /home
 EXPOSE 8000
 RUN git init
 RUN git pull https://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@github.com/deeplearn-optimizer/converse.git
+CMD ["mkdir", "Database"]
+CMD ["python3", "./manage.py", "makemigrations"]
 CMD ["python3", "./manage.py", "runserver", "0.0.0.0:8000"]
