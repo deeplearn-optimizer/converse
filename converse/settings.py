@@ -51,14 +51,7 @@ INSTALLED_APPS = [
     "rest_framework",
     'p_users.apps.PUsersConfig',
     'corsheaders',
-    'django_elasticsearch_dsl',
 ]
-
-ELASTICSEARCH_DSL={
-    'default': {
-        'hosts': '3.91.247.174:9200'
-    },
-}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -188,40 +181,3 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-LOGGING = {
-
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%Y-%m-%d %H:%M:%S"
-           
-        },
-        'simple': {
-           'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-           'datefmt' : "%Y-%m-%d %H:%M:%S"
-        },
-    },  
-
-  'handlers': {
-        'logstash': {
-            'level': 'INFO',
-            'class': 'logstash.TCPLogstashHandler',
-            'host': '52.201.234.29',
-            'port': 5000, # Default value: 5959
-            'version': 0, # Version of logstash event schema. Default value: 0 (for backward compatibility of the library)
-            'message_type': 'django',  # 'type' field in logstash message. Default value: 'logstash'.
-            'fqdn': True, # Fully qualified domain name. Default value: false.
-            'tags': ['django.server', "tests", "django.utils.autoreload"], # list of tags. Default: None.
-        },
-  },
-  'loggers': {
-        'django.server': {  # Here is the change
-            'handlers': ['logstash'],
-            'level': 'INFO',
-      }
-  },
-}
