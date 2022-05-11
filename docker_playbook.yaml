@@ -47,5 +47,3 @@
 
     - name: Launch the calculator container
       shell: docker run --name deepdockerpro/converse -p 9000:8000 -v /home/ubuntu/preserved_database:/home/Database deepdockerpro/converse
-	
-
