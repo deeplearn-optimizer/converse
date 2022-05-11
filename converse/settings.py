@@ -51,7 +51,14 @@ INSTALLED_APPS = [
     "rest_framework",
     'p_users.apps.PUsersConfig',
     'corsheaders',
+    'django_elasticsearch_dsl',
 ]
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': '3.91.247.174:9200'
+    },
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -127,7 +134,7 @@ WSGI_APPLICATION = 'converse.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / "db.sqlite3"),
+        'NAME': str(BASE_DIR/"Database"/"db.sqlite3"),
     }
 }
 
@@ -183,7 +190,8 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGGING = { 
+LOGGING = {
+
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
@@ -193,29 +201,27 @@ LOGGING = {
            
         },
         'simple': {
-            'format': '%(levelname)s %(message)s'
+           'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+           'datefmt' : "%Y-%m-%d %H:%M:%S"
         },
     },  
-    'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': 'myproject.log',
-            'when': 'D', # this specifies the interval
-            'interval': 1, # defaults to 1, only necessary for other values 
-            'backupCount': 10, # how many backup file to keep, 10 days
-            'formatter': 'verbose',
-        },
 
-    },  
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+  'handlers': {
+        'logstash': {
+            'level': 'INFO',
+            'class': 'logstash.TCPLogstashHandler',
+            'host': '52.201.234.29',
+            'port': 5000, # Default value: 5959
+            'version': 0, # Version of logstash event schema. Default value: 0 (for backward compatibility of the library)
+            'message_type': 'django',  # 'type' field in logstash message. Default value: 'logstash'.
+            'fqdn': True, # Fully qualified domain name. Default value: false.
+            'tags': ['django.server', "tests", "django.utils.autoreload"], # list of tags. Default: None.
         },
-        '': {
-            'handlers': ['file'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-        }
-    },  
+  },
+  'loggers': {
+        'django.server': {  # Here is the change
+            'handlers': ['logstash'],
+            'level': 'INFO',
+      }
+  },
 }

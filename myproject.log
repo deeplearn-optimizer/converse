@@ -22,3 +22,7 @@
 [2022-05-06 06:50:36] WARNING [django.request:225] Not Found: /profiles/images/favicon.ico
 [2022-05-06 06:50:36] WARNING [django.server:179] "GET /profiles/images/favicon.ico HTTP/1.1" 404 6279
 [2022-05-06 06:50:36] WARNING [django.server:179] "GET /profiles/images/favicon.ico HTTP/1.1" 404 6279
+[2022-05-06 13:41:12] INFO [django.utils.autoreload:257] /home/deepak/Music/converse/converse/settings.py changed, reloading.
+[2022-05-06 13:41:12] INFO [django.utils.autoreload:257] /home/deepak/Music/converse/converse/settings.py changed, reloading.
+[2022-05-06 13:41:12] INFO [django.utils.autoreload:643] Watching for file changes with StatReloader
+[2022-05-06 13:41:12] INFO [django.utils.autoreload:643] Watching for file changes with StatReloader
